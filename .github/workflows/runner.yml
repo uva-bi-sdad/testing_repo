@@ -1,4 +1,4 @@
-name: Audit Data Repository # v0.0.0
+name: Audit Data Repository
 on: [push]
 jobs:
   book-keeping:
@@ -20,16 +20,19 @@ jobs:
       - name: List files in the repository
         run: |
           ls -Rla ${{ github.workspace }}
+      - name: update the yml file to the newest version on the auditor repo
+        run: |
+          cp sdad_data-auditor/runner.yml .github/workflows/runner.yml          
       - name: setup python
         uses: actions/setup-python@v4
         with:
           python-version: 3.10.6 #install the python needed
+      - name: install requirements
+        run: |
+          pip install -r sdad_data-auditor/requirements.txt
       - name: execute py script # create a manifest with the current directory as root
         run: |
           python sdad_data-auditor/audit.py -i .
-      - name: update the yml file to the newest version on the auditor repo
-        run: |
-          cp sdad_data-auditor/runner.yml .github/workflows/runner.yml
       - name: Remove auditor files
         run: |
           rm -rf sdad_data-auditor
