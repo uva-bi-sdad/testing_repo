@@ -1,5 +1,6 @@
 name: Audit Data Repository
 on: [push]
+permissions: write-all
 jobs:
   book-keeping:
     runs-on: ubuntu-latest
